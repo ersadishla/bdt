@@ -11,11 +11,11 @@ ETS Basis Data Terdistribusi
 * Database 1
   * RAM: 512 MB
   * OS: Ubuntu 16.04
-  * IP: 192.168.17.17  
+  * IP: 192.168.17.17
 * Database 2
   * RAM: 512 MB
   * OS: Ubuntu 16.04
-  * IP: 192.168.17.18  
+  * IP: 192.168.17.18
 * Database 3
   * RAM: 512 MB
   * OS: Ubuntu 16.04

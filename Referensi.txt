@@ -4,3 +4,6 @@ https://dev.mysql.com/doc/refman/5.7/en/group-replication.html
 
 ProxySQL:
 https://www.digitalocean.com/community/tutorials/how-to-use-proxysql-as-a-load-balancer-for-mysql-on-ubuntu-16-04
+
+UUID:
+e07e5c4d-7cbc-4b19-9c42-a72d75921fc8

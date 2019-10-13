@@ -7,23 +7,20 @@
 # you're doing.
 
 Vagrant.configure("2") do |config|
-  
+
   # MySQL Cluster dengan 3 node
   (1..3).each do |i|
     config.vm.define "db#{i}" do |node|
       node.vm.hostname = "db#{i}"
       node.vm.box = "bento/ubuntu-16.04"
-      node.vm.network "private_network", ip: "192.168.33.1#{i}"
+      node.vm.network "private_network", ip: "192.168.17.#{i+16}"
 
-      # Opsional. Edit sesuai dengan nama network adapter di komputer
-      #node.vm.network "public_network", bridge: "Qualcomm Atheros QCA9377 Wireless Network Adapter"
-      
       node.vm.provider "virtualbox" do |vb|
         vb.name = "db#{i}"
         vb.gui = false
         vb.memory = "1024"
       end
-  
+
       node.vm.provision "shell", path: "deployMySQL1#{i}.sh", privileged: false
     end
   end
@@ -31,13 +28,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "proxy" do |proxy|
     proxy.vm.hostname = "proxy"
     proxy.vm.box = "bento/ubuntu-16.04"
-    proxy.vm.network "private_network", ip: "192.168.33.10"
-    #proxy.vm.network "public_network",  bridge: "Qualcomm Atheros QCA9377 Wireless Network Adapter"
-    
+    proxy.vm.network "private_network", ip: "192.168.17.16"
+
     proxy.vm.provider "virtualbox" do |vb|
       vb.name = "proxy"
       vb.gui = false
-      vb.memory = "1024"
+      vb.memory = "512"
     end
 
     proxy.vm.provision "shell", path: "deployProxySQL.sh", privileged: false

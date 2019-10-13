@@ -35,4 +35,4 @@ sudo cp /vagrant/my12.cnf /etc/mysql/my.cnf
 sudo service mysql restart
 
 # Cluster bootstrapping
-# sudo mysql -u root -padmin < /vagrant/cluster_member.sql
+sudo mysql -u root -padmin < /vagrant/cluster_member.sql
