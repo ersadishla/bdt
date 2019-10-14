@@ -162,6 +162,22 @@ php artisan key:generate
 ```
 ![key](img/key.png)
 ### c. Deskripsi Aplikasi
+![homepage](img/homepage.png)
+trust(dot)me adalah aplikasi sederhana yang menjawab masalah orang yang tinggal di asrama ITS yang tidak mempunyai transportasi ataupun yang malas untuk pergi ke suatu tempat. trust(dot)me menyediakan platform untuk orang yang mau pergi ke suatu tempat untuk melakukan postingan di website terlebih dahulu, dengan mencantumkan waktu keberangkatan dan tujuan. Kemudian bagi orang yang ingin titip sesuatu tinggal memilih yang tujuannya sesuai.  
+
+Tampilan ketika menambahkan kepergian ke suatu tempat
+![depart](img/depart.png)
+Tampilan list orang yang pergi ke suatu tempat  
+Tampilan yang berangkat
+![list](img/list.png)
+Tampilan orang lain
+![list2](img/list2.png)
+Tampilan ketika titip ke seseorang
+![depart](img/depart.png)
+Tampilan dashboard orang yang pergi
+![dashboard_traveler](img/dashboard_traveler.png)
+Tampilan dashboard orang yang titip
+![dashboard_entruster](img/dashboard_entruster.png)
 ### d. Konfigurasi Aplikasi untuk menggunakan BDT
 Sebelum mulai konfigurasi aplikasi, ada tambahan konfigurasi untuk database  
 **Dijalankan di Database 1**
