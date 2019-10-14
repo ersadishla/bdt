@@ -8,7 +8,7 @@ ETS Basis Data Terdistribusi
 
 ### a. Desain Infrastruktur
 
-![Gambar Infrastruktur](desain.jpg)
+![Gambar_Infrastruktur](img/desain.jpg)
 
 ### Database Server
 * Database 1
@@ -96,20 +96,20 @@ Instalasi Basis Data Terdistribusi memanfaatkan provisioning dengan menggunakan 
   File setting tambahan  
   [Konfigurasi ProxySQL](proxysql.sql) : Untuk mengatur node MySQL  
 
-  * **Jalankan Vagrant File**  
+  * **Langkah Ketiga**  
   Untuk menjalankan Vagrant File cukup dengan command _vagrant up_  pada direktori kerja
     ```
     vagrant up
     ```
     Contoh :
-    ![vagrant up](vagrant_up.png)
+    ![vagrant_up](img/vagrant_up.png)
     Setelah itu pastikan di Virtual Box node-node yang   dibuat di atas telah berjalan
-    ![vbox run](vbox_run.png)
+    ![vbox_run](img/vbox_run.png)
     Lakukan pengecekan dengan menggunakan SSH Vagrant,   default username dan password 'vagrant'
     ```
     vagrant ssh (nama node)
     ```
-    ![ssh](ssh.png)
+    ![ssh](img/ssh.png)
     Masuk ke MySQL Database dengan command
     ```
     mysql -u root -padmin
@@ -132,9 +132,104 @@ Instalasi Basis Data Terdistribusi memanfaatkan provisioning dengan menggunakan 
     ```sql
     SELECT * FROM   performance_schema.replication_group_members;
     ```
-    ![member](member.png)
+    ![member](img/member.png)
     Lakukan testing pada ProxySQL dengan command
     ```sql
     SELECT hostgroup_id, hostname, status FROM   runtime_mysql_servers;
     ```
-    ![proxy](proxy.png)
+    ![proxy](img/proxy.png)
+
+## 2. Penggunaan Basis Data Terdistribusi
+
+### ab. Instalasi dan Konfigurasi Aplikasi Tambahan
+Karena menggunakan xampp, jadi untuk aplikasi tambahannya tinggal melakukan instalasi xampp  
+Untuk aplikasi instalasi yang dipakai, langkah-langkah :
+* Masuk ke direktori htdocs xampp
+* Clone repository aplikasi
+```
+git clone https://github.com/ersadishla/titip
+```
+* Pindah direktori, kemudian install dan dump Composer
+```
+composer install
+composer dump-autoload
+```
+![clone](img/clone.png)
+* Salin file _.env.example_ menjadi _.env_ untuk melakukan konfigurasi
+* Generate Key
+```
+php artisan key:generate
+```
+![key](img/key.png)
+### c. Deskripsi Aplikasi
+### d. Konfigurasi Aplikasi untuk menggunakan BDT
+Sebelum mulai konfigurasi aplikasi, ada tambahan konfigurasi untuk database  
+**Dijalankan di Database 1**
+* Buat database baru
+```sql
+CREATE DATABASE bdt;
+```
+* Buat user MySQL baru
+```sql
+CREATE USER 'bdtuser'@'%' IDENTIFIED BY 'bdtpassword';
+GRANT ALL PRIVILEGES on bdt.* to 'bdtuser'@'%';
+FLUSH PRIVILEGES;
+EXIT;
+```
+* Testing
+```
+mysql -u bdtuser -pbdtpassword
+```
+**Dijalankan di ProxySQL**
+* Masuk ke ProxySQL
+```
+mysql -u admin -ppassword -h 127.0.0.1 -P 6032 --prompt='ProxySQLAdmin> '
+```
+* Tambah User MySQL
+```sql
+INSERT INTO mysql_users(username, password, default_hostgroup) VALUES ('bdtuser', 'bdtpassword', 2);
+```
+* Migrate dan Simpan ke Disk
+```sql
+LOAD MYSQL USERS TO RUNTIME;
+SAVE MYSQL USERS TO DISK;
+```
+**Konfigurasi Aplikasi**
+* Setting .env
+Ubah DB_HOST menjadi alamat IP ProxySQL, DB_PORT menjadi 6033, sisanya menyesuaikan
+![db](img/db.png)
+* Migration dan Seeding(kalau ada)
+```
+php artisan migrate
+php artisan db:seed
+```
+* Jalankan Aplikasi di lokal
+```
+php artisan serve
+```
+![migrate](img/migrate.png)
+* Testing
+Di browser buka url http://localhost:8000/
+![homepage](img/homepage.png)
+
+## 3. Simulasi Fail-Over
+
+### a. Matikan salah satu Database
+```
+sudo service mysql stop
+```
+![stop](img/stop.png)
+### b. Tunjukkan bahwa aplikasi tetap berjalan dengan baik
+![running](img/running.png)
+Testing dengan input data baru (menambahkan rencana kepergian)
+![add](img/add.png)
+![add2](img/add2.png)
+Testing di database
+![prove_db](img/prove_db.png)
+### c. Jalankan server yang sebelumnya mati
+```
+sudo service mysql start
+```
+![start](img/start.png)
+### d. Tunjukkan bahwa server yang sebelumnya mati punya data yang sama dengan
+![last_prove](img/last_prove.png)
