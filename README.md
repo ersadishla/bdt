@@ -97,7 +97,7 @@ Instalasi Basis Data Terdistribusi memanfaatkan provisioning dengan menggunakan 
   [Konfigurasi ProxySQL](proxysql.sql) : Untuk mengatur node MySQL  
 
   * **Jalankan Vagrant File**  
-  Untuk menjalankan Vagrant File cukup dengan command   pada direktori kerja
+  Untuk menjalankan Vagrant File cukup dengan command _vagrant up_  pada direktori kerja
     ```
     vagrant up
     ```
