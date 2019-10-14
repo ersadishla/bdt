@@ -8,7 +8,7 @@ ETS Basis Data Terdistribusi
 
 ### a. Desain Infrastruktur
 
-![Gambar_Infrastruktur](img/desain.jpg)
+![Gambar_Infrastruktur](img/infrastruktur.jpg)
 
 ### Database Server
 * Database 1
