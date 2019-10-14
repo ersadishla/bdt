@@ -231,5 +231,5 @@ Testing di database
 sudo service mysql start
 ```
 ![start](img/start.png)
-### d. Tunjukkan bahwa server yang sebelumnya mati punya data yang sama dengan
+### d. Tunjukkan bahwa server yang sebelumnya mati punya data yang sama
 ![last_prove](img/last_prove.png)
